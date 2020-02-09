@@ -33,9 +33,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Locale;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class MainActivity extends Activity implements SensorEventListener {
@@ -57,47 +59,85 @@ public class MainActivity extends Activity implements SensorEventListener {
     private Button button2;
     private Uri fileUri;
     public static final int MEDIA_TYPE_IMAGE = 1;
+    private String currentPhotoPath;
 
-    public void TakePhoto(View view) {
 
+    public void takePhoto(View view) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
+        fileUri = getOutputMediaFileUri();
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
         startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
-
     }
 
-    private static Uri getOutputMediaFileUri(int type) {
-        return Uri.fromFile(getOutputMediaFile(type));
-
-    }
-
-    @SuppressLint("SimpleDateFormat")
-    private static File getOutputMediaFile(int type) {
-        final File mediaStorageDir;
-        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_PICTURES), "AntonioCompassApp");
-        } else {
-            mediaStorageDir = new File("/storage/sdcard0/AntonioCompassApp");
+    private Uri getOutputMediaFileUri() {
+        if (getOutputMediaFile() != null){
+            return Uri.fromFile(getOutputMediaFile());
         }
-        if (!mediaStorageDir.exists()) {
-            if (!mediaStorageDir.mkdirs()) {
-                Log.d("AntonioCompassApp", "failed to create directory");
-                return null;
-            }
-        }
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        File mediaFile = null;
-        if (type == MEDIA_TYPE_IMAGE) {
-            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-                    "IMG_" + timeStamp + ".jpg");
-
-        } else {
+        else {
             return null;
         }
-        return mediaFile;
     }
+
+    private File getOutputMediaFile() {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        try {
+            File image = File.createTempFile(
+                    imageFileName,
+                    ".jpg",
+                    storageDir
+            );
+            currentPhotoPath = image.getAbsolutePath();
+            return image;
+        }
+        catch (IOException e){
+            return null;
+        }
+    }
+
+
+//    public void takePhoto(View view) {
+//
+//        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
+//        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+//        startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+//
+//    }
+//
+//    private static Uri getOutputMediaFileUri(int type) {
+//        return Uri.fromFile(getOutputMediaFile(type));
+//
+//    }
+//
+//    @SuppressLint("SimpleDateFormat")
+//        private static File getOutputMediaFile(int type) {
+//        final File mediaStorageDir;
+//        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+//            mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+//                    Environment.DIRECTORY_PICTURES), "AntonioCompassApp");
+//        } else {
+//            mediaStorageDir = new File("/storage/sdcard0/AntonioCompassApp/");
+//        }
+//        if (!mediaStorageDir.exists()) {
+//            if (!mediaStorageDir.mkdirs()) {
+//                Log.d("AntonioCompassApp", "failed to create directory");
+//                return null;
+//            }
+//        }
+//        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+//        File mediaFile = null;
+//        if (type == MEDIA_TYPE_IMAGE) {
+//            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+//                    "IMG_" + timeStamp + ".jpg");
+//
+//        } else {
+//            return null;
+//        }
+//        return mediaFile;
+//    }
 
     public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 
