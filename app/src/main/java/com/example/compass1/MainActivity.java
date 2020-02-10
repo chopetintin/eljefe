@@ -1,5 +1,6 @@
 package com.example.compass1;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -23,6 +24,7 @@ import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -31,6 +33,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.File;
 import java.io.IOException;
@@ -60,6 +64,44 @@ public class MainActivity extends Activity implements SensorEventListener {
     private Uri fileUri;
     public static final int MEDIA_TYPE_IMAGE = 1;
     private String currentPhotoPath;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+
+        TV = (TextView) findViewById(R.id.TV);
+
+        initialization();
+        calculateOrientation();
+        configureNextButton();
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.bottom_nav_bar_history_item:
+                        Toast.makeText(MainActivity.this, "History", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.bottom_nav_bar_fitness_item:
+                        Toast.makeText(MainActivity.this, "Fitness", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.bottom_nav_bar_compass_item:
+                        Toast.makeText(MainActivity.this, "Compass", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.bottom_nav_bar_picture_item:
+                        Toast.makeText(MainActivity.this, "Picture", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                return true;
+            }
+        });
+
+    }
 
 
     public void takePhoto(View view) {
@@ -113,20 +155,7 @@ public class MainActivity extends Activity implements SensorEventListener {
         }
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-        StrictMode.setVmPolicy(builder.build());
 
-        TV = (TextView) findViewById(R.id.TV);
-
-        initialization();
-        calculateOrientation();
-        configureNextButton();
-
-    }
 
     private void initialization() {
         //TODO Auto-generated method stub
@@ -275,4 +304,6 @@ public class MainActivity extends Activity implements SensorEventListener {
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
     }
+
+
 }

@@ -9,8 +9,7 @@
     tools:context=".MainActivity">
 
 
-    //The frame layout takes 0dp as height because like that we ensure it takes
-    //whatever space is left
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -27,7 +26,8 @@
         app:itemIconTint="@android:color/white"
         app:itemTextColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:menu="@menu/bottom_nav_bar" />
+        app:menu="@menu/bottom_nav_bar"
+        app:labelVisibilityMode="labeled"/>
 
 
 
