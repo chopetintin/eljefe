@@ -86,7 +86,7 @@ public class MainActivity extends Activity implements SensorEventListener {
             File image = File.createTempFile(
                     imageFileName,
                     ".jpg",
-                    storageDir
+                     storageDir
             );
             currentPhotoPath = image.getAbsolutePath();
             return image;
