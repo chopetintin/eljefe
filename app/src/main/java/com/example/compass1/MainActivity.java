@@ -6,16 +6,13 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.compass1.battery.BatteryFragment;
-import com.example.compass1.compass.CompassFragmentClass;
+import com.example.compass1.compass.CompassFragment;
 import com.example.compass1.fitness.FitnessFragment;
 import com.example.compass1.history.HistoryFragment;
 import com.example.compass1.picture.PictureFragment;
@@ -60,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            //CompassFragmentClass fragment = new CompassFragmentClass();
+            //CompassFragment fragment = new CompassFragment();
 
 
             @Override
@@ -85,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.bottom_nav_bar_compass_item:
                         Toast.makeText(MainActivity.this, "Compass", Toast.LENGTH_SHORT).show();
-                        fragment = new CompassFragmentClass();
+                        fragment = new CompassFragment();
                         fragmentTransaction.replace(R.id.frame_container, fragment);
                         fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();
