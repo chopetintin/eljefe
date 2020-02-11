@@ -105,6 +105,9 @@ public class MainActivity extends AppCompatActivity {
                         fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();
                         break;
+                    case R.id.bottom_nav_bar_picture_item:
+                        takePhoto();
+                        break;
                 }
                 return true;
             }
@@ -114,8 +117,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void takePhoto(View view) {
-        
+    public void takePhoto(){
+
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         fileUri = getOutputMediaFileUri();
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
