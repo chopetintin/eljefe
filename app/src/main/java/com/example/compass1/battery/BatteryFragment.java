@@ -1,22 +1,15 @@
-package com.example.compass1.BatteryFragment;
+package com.example.compass1.battery;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.BatteryManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
 import com.example.compass1.R;
 
-public class BatteryFragmentClass extends Fragment {
+public class BatteryFragment extends Fragment {
 
     @Override
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

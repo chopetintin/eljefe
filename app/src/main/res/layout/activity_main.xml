@@ -19,36 +19,6 @@
         app:layout_constraintTop_toTopOf="parent"   > </FrameLayout>
 
 
-        <fragment
-            android:id="@+id/historyviewer"
-            android:name="com.example.compass1.HistoryFragment.HistoryFragmentClass"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <fragment
-            android:id="@+id/fitnessviewer"
-            android:name="com.example.compass1.FitnessFragment.FitnessFragmentClass"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <fragment
-            android:id="@+id/compassviewer"
-            android:name="com.example.compass1.CompassFragment.CompassFragmentClass"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <fragment
-            android:id="@+id/pictureviewer"
-            android:name="com.example.compass1.PictureFragment.PictureFragmentClass"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <fragment
-            android:id="@+id/batteryviewer"
-            android:name="com.example.compass1.BatteryFragment.BatteryFragmentClass"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"

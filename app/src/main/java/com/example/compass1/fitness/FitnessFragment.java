@@ -1,4 +1,4 @@
-package com.example.compass1.HistoryFragment;
+package com.example.compass1.fitness;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,10 +9,10 @@ import androidx.fragment.app.Fragment;
 
 import com.example.compass1.R;
 
-public class HistoryFragmentClass extends Fragment {
+public class FitnessFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        return inflater.inflate(R.layout.fragment_history, container, false);
+        return inflater.inflate(R.layout.fragment_fitness, container, false);
     }
 }

@@ -1,16 +1,15 @@
-package com.example.compass1.PictureFragment;
+package com.example.compass1.picture;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.compass1.R;
 
-public class PictureFragmentClass extends Fragment {
+public class PictureFragment extends Fragment {
 
 
     @Override
