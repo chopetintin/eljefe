@@ -6,9 +6,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.compass1.battery.BatteryFragment;
@@ -47,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 //        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
 //        StrictMode.setVmPolicy(builder.build());
+
 //
 //        TV = (TextView) findViewById(R.id.TV);
 
