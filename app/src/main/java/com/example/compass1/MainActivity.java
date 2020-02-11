@@ -6,10 +6,15 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.StrictMode;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.compass1.battery.BatteryFragment;
@@ -17,6 +22,12 @@ import com.example.compass1.compass.CompassFragment;
 import com.example.compass1.fitness.FitnessFragment;
 import com.example.compass1.history.HistoryFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 //public class MainActivity extends Activity implements SensorEventListener {
 public class MainActivity extends AppCompatActivity {
@@ -103,56 +114,57 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-//    public void takePhoto(View view) {
-//        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        fileUri = getOutputMediaFileUri();
-//        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
-//        startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
-//    }
+    public void takePhoto(View view) {
+        
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        fileUri = getOutputMediaFileUri();
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+        startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+    }
 //
-//    private Uri getOutputMediaFileUri() {
-//        if (getOutputMediaFile() != null) {
-//            return Uri.fromFile(getOutputMediaFile());
-//        } else {
-//            return null;
-//        }
-//    }
-//
-//    private File getOutputMediaFile() {
-//        // Create an image file name
-//        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
-//        String imageFileName = "JPEG_" + timeStamp + "_";
-//        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-//        try {
-//            File image = File.createTempFile(
-//                    imageFileName,
-//                    ".jpg",
-//                    storageDir
-//            );
-//            currentPhotoPath = image.getAbsolutePath();
-//            return image;
-//        } catch (IOException e) {
-//            return null;
-//        }
-//    }
+    private Uri getOutputMediaFileUri() {
+        if (getOutputMediaFile() != null) {
+            return Uri.fromFile(getOutputMediaFile());
+        } else {
+            return null;
+        }
+    }
+
+    private File getOutputMediaFile() {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        try {
+            File image = File.createTempFile(
+                    imageFileName,
+                    ".jpg",
+                    storageDir
+            );
+            currentPhotoPath = image.getAbsolutePath();
+            return image;
+        } catch (IOException e) {
+            return null;
+        }
+    }
 //
 //
 ////
 //
-//    public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
-//
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
-//            if (resultCode == RESULT_OK) {
-//                Toast.makeText(this, "Image successfully saved", Toast.LENGTH_SHORT).show();
-//            } else if (resultCode == RESULT_CANCELED) {
-//                Toast.makeText(this, "Image capture cancelled", Toast.LENGTH_SHORT).show();
-//            } else {
-//                Toast.makeText(this, "Image capture failed", Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//    }
+    public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                Toast.makeText(this, "Image successfully saved", Toast.LENGTH_SHORT).show();
+            } else if (resultCode == RESULT_CANCELED) {
+                Toast.makeText(this, "Image capture cancelled", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Image capture failed", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 //
 //
 //    private void initialization() {
@@ -171,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
 //
 //
 //    }
-//
+//   this is not needed anymore since it's the button for the battery stuff
 //    private void configureNextButton() {
 //
 //        button2 = (Button) findViewById(R.id.button2);
