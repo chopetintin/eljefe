@@ -24,4 +24,11 @@
         android:icon="@drawable/ic_add_a_photo_24px"
         android:title="Picture" />
 
+    <item
+        android:id="@+id/bottom_nav_bar_battery_item"
+        android:enabled="true"
+        android:icon="@drawable/ic_battery_unknown_24px"
+        android:title="Battery" />
+
+
 </menu>
