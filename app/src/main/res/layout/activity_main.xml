@@ -19,6 +19,26 @@
         app:layout_constraintBottom_toTopOf="@id/bottom_navigation">
 
         <fragment
+            android:id="@+id/historyviewer"
+            android:name="com.example.compass1.BatteryFragment.BatteryFragmentClass"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <fragment
+            android:id="@+id/fitnessviewer"
+            android:name="com.example.compass1.BatteryFragment.BatteryFragmentClass"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <fragment
+            android:id="@+id/compassviewer"
+            android:name="com.example.compass1.BatteryFragment.BatteryFragmentClass"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <fragment
+            android:id="@+id/pictureviewer"
+            android:name="com.example.compass1.BatteryFragment.BatteryFragmentClass"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <fragment
             android:id="@+id/batteryviewer"
             android:name="com.example.compass1.BatteryFragment.BatteryFragmentClass"
             android:layout_width="match_parent"
