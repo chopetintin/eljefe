@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -15,7 +16,6 @@ import com.example.compass1.battery.BatteryFragment;
 import com.example.compass1.compass.CompassFragment;
 import com.example.compass1.fitness.FitnessFragment;
 import com.example.compass1.history.HistoryFragment;
-import com.example.compass1.picture.PictureFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 //public class MainActivity extends Activity implements SensorEventListener {
@@ -37,21 +37,21 @@ public class MainActivity extends AppCompatActivity {
 //
 //    public TextView TV;
 //    private Button button2;
-//    private Uri fileUri;
-//    public static final int MEDIA_TYPE_IMAGE = 1;
-//    private String currentPhotoPath;
+    private Uri fileUri;
+    public static final int MEDIA_TYPE_IMAGE = 1;
+    private String currentPhotoPath;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-//        StrictMode.setVmPolicy(builder.build());
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
 
 //
 //        TV = (TextView) findViewById(R.id.TV);
 
-        //initialization();
+          //initialization();
 //        calculateOrientation();
 //        configureNextButton();
 
@@ -90,13 +90,6 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.bottom_nav_bar_battery_item:
                         Toast.makeText(MainActivity.this, "Battery", Toast.LENGTH_SHORT).show();
                         fragment = new BatteryFragment();
-                        fragmentTransaction.replace(R.id.frame_container, fragment);
-                        fragmentTransaction.addToBackStack(null);
-                        fragmentTransaction.commit();
-                        break;
-                    case R.id.bottom_nav_bar_picture_item:
-                        Toast.makeText(MainActivity.this, "Picture", Toast.LENGTH_SHORT).show();
-                        fragment = new PictureFragment();
                         fragmentTransaction.replace(R.id.frame_container, fragment);
                         fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();
