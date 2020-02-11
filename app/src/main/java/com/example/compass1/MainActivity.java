@@ -38,6 +38,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.compass1.BatteryFragment.BatteryFragmentClass;
+import com.example.compass1.CompassFragment.CompassFragmentClass;
+import com.example.compass1.FitnessFragment.FitnessFragmentClass;
+import com.example.compass1.HistoryFragment.HistoryFragmentClass;
+import com.example.compass1.PictureFragment.PictureFragmentClass;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.File;
@@ -49,9 +53,7 @@ import java.util.Locale;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 //public class MainActivity extends Activity implements SensorEventListener {
-    public class MainActivity extends Activity{
-
-
+    public class MainActivity extends AppCompatActivity {
 
 
 //    Animation rotateAnimation;
@@ -73,11 +75,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 //    public static final int MEDIA_TYPE_IMAGE = 1;
 //    private String currentPhotoPath;
 
-
-
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 //        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
@@ -88,37 +87,67 @@ import java.util.concurrent.CopyOnWriteArrayList;
         //initialization();
 //        calculateOrientation();
 //        configureNextButton();
-
+        if (findViewById(R.id.frame_container) != null){
+            if (savedInstanceState != null){
+                return;
+            }
+        }
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        //CompassFragmentClass fragment = new CompassFragmentClass();
+
+
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                Fragment fragment = new Fragment();
                 switch (item.getItemId()) {
                     case R.id.bottom_nav_bar_history_item:
                         Toast.makeText(MainActivity.this, "History", Toast.LENGTH_SHORT).show();
+                        //selectedFragment = new HistoryFragmentClass();
+                        fragmentTransaction.replace(R.id.frame_container, fragment);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
                         break;
                     case R.id.bottom_nav_bar_fitness_item:
                         Toast.makeText(MainActivity.this, "Fitness", Toast.LENGTH_SHORT).show();
+                        //selectedFragment = new FitnessFragmentClass();
+                        fragmentTransaction.replace(R.id.frame_container, fragment);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
                         break;
                     case R.id.bottom_nav_bar_compass_item:
                         Toast.makeText(MainActivity.this, "Compass", Toast.LENGTH_SHORT).show();
-                        break;
-                    case R.id.bottom_nav_bar_picture_item:
-                        Toast.makeText(MainActivity.this, "Picture", Toast.LENGTH_SHORT).show();
+                        //selectedFragment = new CompassFragmentClass();
+                        fragmentTransaction.replace(R.id.frame_container, fragment);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
                         break;
                     case R.id.bottom_nav_bar_battery_item:
                         Toast.makeText(MainActivity.this, "Battery", Toast.LENGTH_SHORT).show();
+                        //selectedFragment = new BatteryFragmentClass();
+                        fragmentTransaction.replace(R.id.frame_container, fragment);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
                         break;
+                    case R.id.bottom_nav_bar_picture_item:
+                        Toast.makeText(MainActivity.this, "Picture", Toast.LENGTH_SHORT).show();
+                        //selectedFragment = new PictureFragmentClass();
+                        fragmentTransaction.replace(R.id.frame_container, fragment);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
+                        break;
+                    //default:
+                        //fragment = new CompassFragmentClass();
                 }
+                //getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, selectedFragment).commit();
                 return true;
             }
         });
 
 
-
     }
-
-
 
 
 //    public void takePhoto(View view) {
@@ -320,6 +349,5 @@ import java.util.concurrent.CopyOnWriteArrayList;
 //    public void onAccuracyChanged(Sensor sensor, int accuracy) {
 //
 //    }
-
 
 }

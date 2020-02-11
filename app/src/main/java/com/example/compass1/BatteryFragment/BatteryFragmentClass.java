@@ -18,18 +18,27 @@ import com.example.compass1.R;
 
 public class BatteryFragmentClass extends Fragment {
 
+    @Override
+    public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-    public TextView info;
-    public int BatteryL;
-    private int BatteryV;
-    private double BatteryT;
-    private String BatteryTe;
-    private String BatteryStatus;
-    private String BatteryHealth;
-    private String BatteryPlugged;
-    private Button button3;
+        return inflater.inflate(R.layout.fragment_battery, container, false);
 
-    private IntentFilter ifilter;
+
+    }
+}
+
+
+//    public TextView info;
+//    public int BatteryL;
+//    private int BatteryV;
+//    private double BatteryT;
+//    private String BatteryTe;
+//    private String BatteryStatus;
+//    private String BatteryHealth;
+//    private String BatteryPlugged;
+//    private Button button3;
+//
+//    private IntentFilter ifilter;
 
 //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
@@ -42,13 +51,7 @@ public class BatteryFragmentClass extends Fragment {
 //
 //        configureBackButton();
 //    }
-    @Override
-    public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        return inflater.inflate(R.layout.fragment_battery, container, false);
-
-
-    }
 //    private void configureBackButton() {
 //        button3 = (Button) findViewById(R.id.button3);
 //        button3.setOnClickListener(new View.OnClickListener() {
@@ -126,6 +129,6 @@ public class BatteryFragmentClass extends Fragment {
 //            }
 //        }
 //    };
-}
+
 
 
