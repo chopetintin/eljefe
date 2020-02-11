@@ -96,6 +96,9 @@ public class MainActivity extends Activity implements SensorEventListener {
                     case R.id.bottom_nav_bar_picture_item:
                         Toast.makeText(MainActivity.this, "Picture", Toast.LENGTH_SHORT).show();
                         break;
+                    case R.id.bottom_nav_bar_battery_item:
+                        Toast.makeText(MainActivity.this, "Battery", Toast.LENGTH_SHORT).show();
+                        break;
                 }
                 return true;
             }
@@ -128,7 +131,7 @@ public class MainActivity extends Activity implements SensorEventListener {
             File image = File.createTempFile(
                     imageFileName,
                     ".jpg",
-                     storageDir
+                    storageDir
             );
             currentPhotoPath = image.getAbsolutePath();
             return image;
@@ -154,7 +157,6 @@ public class MainActivity extends Activity implements SensorEventListener {
             }
         }
     }
-
 
 
     private void initialization() {
