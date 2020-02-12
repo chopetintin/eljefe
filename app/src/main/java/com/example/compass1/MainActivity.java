@@ -42,25 +42,21 @@ import java.util.Date;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
-//public class MainActivity extends AppCompatActivity {
 
-
-    Animation rotateAnimation;
+    //Animation rotateAnimation;
     ImageView imageView2;
     TextView grados;
-    TextView tv;
-    TextView TV;
+    String tv;
+    //TextView TV;
     private SensorManager sm;
-    private float x, y, z;
-    private double h;
+    //private float x, y, z;
+    //private double h;
     // we need two sensors in this application
     private Sensor aSensor;
     private Sensor mSensor;
     float[] accelerometerValues = new float[3];
     float[] magneticFieldValues = new float[3];
 
-    //public TextView TV;
-    //private Button button2;
     private Uri fileUri;
     public static final int MEDIA_TYPE_IMAGE = 1;
     private String currentPhotoPath;
@@ -73,15 +69,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         StrictMode.setVmPolicy(builder.build());
 
 //
-        TV = (TextView) findViewById(R.id.TV);
+        //TV = (TextView) findViewById(R.id.TV);
 
         initialization();
         calculateOrientation();
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            //CompassFragment fragment = new CompassFragment();
-
 
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -149,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private File getOutputMediaFile() {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
+        String imageFileName = "JPEG_" + timeStamp + tv + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         try {
             File image = File.createTempFile(
@@ -164,10 +158,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
     }
 
-    //
-//
-////
-//
     public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 
     @Override
@@ -189,10 +179,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private void initialization() {
         //TODO Auto-generated method stub
         //TextView initialization
-        imageView2 = (ImageView) findViewById(R.id.imageView2);
-        tv = (TextView) findViewById(R.id.tvDirection);
-        grados = (TextView) findViewById(R.id.degreeview);
-        tv.setText("Direction");
+        // imageView2 = (ImageView) findViewById(R.id.imageView2);
+        //tv = (TextView) findViewById(R.id.tvDirection);
+        //grados = (TextView) findViewById(R.id.degreeview);
+        //tv.setText("Direction");
 
         //sensors called when the activity starts
         sm = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -213,41 +203,57 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         float degree = (float) Math.toDegrees(values[0]);
         values[1] = (float) Math.toDegrees(values[1]);
         values[2] = (float) Math.toDegrees(values[2]);
-        Log.d("CREATION", "calculateOrientation is being executed");
-        grados.setText(Float.toString(degree));
+        // Log.d("CREATION", "calculateOrientation is being executed");
+        //grados.setText(Float.toString(degree));
 
         if (degree >= -5 && degree < 5) {
-            tv.setText("North");
+            //tv.setText("North");
+            tv = "North";
         } else if (degree >= 5 && degree < 40) {
-            tv.setText("North North East");
+            // tv.setText("North North East");
+            tv = "North North East";
         } else if (degree >= 40 && degree < 50) {
-            tv.setText("North East");
+            //tv.setText("North East");
+            tv = "North East";
         } else if (degree >= 50 && degree < 85) {
-            tv.setText("East North East");
+            //tv.setText("East North East");
+            tv = "East North East";
         } else if (degree >= 85 && degree < 95) {
-            tv.setText("East");
+            //tv.setText("East");
+            tv = "East";
         } else if (degree >= 95 && degree < 130) {
-            tv.setText("East South East");
+            //tv.setText("East South East");
+            tv = "East South East";
         } else if (degree >= 130 && degree < 140) {
-            tv.setText("South East");
+            //tv.setText("South East");
+            tv = "South East";
         } else if (degree >= 140 && degree < 175) {
-            tv.setText("South South East");
+            //tv.setText("South South East");
+            tv = "South South East";
         } else if ((degree >= 175 && degree <= 180) || (degree >= -180 && degree < -175)) {
-            tv.setText("South");
+            //tv.setText("South");
+            tv = "South";
         } else if (degree >= -175 && degree < -140) {
-            tv.setText("South South West");
+            //tv.setText("South South West");
+            tv = "South South West";
         } else if (degree >= -140 && degree < -130) {
-            tv.setText("South West");
+            //tv.setText("South West");
+            tv = "South West";
         } else if (degree >= -130 && degree < -95) {
-            tv.setText("West South West");
+            //tv.setText("West South West");
+            tv = "West South West";
         } else if (degree >= -95 && degree < -85) {
-            tv.setText("West");
+            // tv.setText("West");
+            tv = "West";
         } else if (degree >= -85 && degree < -50) {
-            tv.setText("West North West");
+            //tv.setText("West North West");
+            tv = "West North West";
         } else if (degree >= -50 && degree < -40) {
-            tv.setText("North West");
+            //tv.setText("North West");
+            tv = "North West";
         } else if (degree >= -40 && degree < -50) {
-            tv.setText("North North West");
+            //tv.setText("North North West");
+            tv = "North North East";
         }
 
         RotateAnimation ra = new RotateAnimation(
@@ -258,7 +264,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 0.5f);
         ra.setDuration(500);
         ra.setFillAfter(true);
-        imageView2.startAnimation(ra);
+        //imageView2.startAnimation(ra);
     }
 
 
@@ -285,7 +291,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     public void onSensorChanged(SensorEvent event) {
         //read sensor value from SensorEvent
-        Log.d("V", "ValuesPre" + Arrays.toString(event.values));
+        // Log.d("V", "ValuesPre" + Arrays.toString(event.values));
 
         //calculate the total magnetic field
         final float alpha = 0.97f;
@@ -307,9 +313,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         calculateOrientation();
 
-        Log.d("V", "Values" + Arrays.toString(event.values));
-        Log.d("M", "Magnetic:" + Arrays.toString(magneticFieldValues));
-        Log.d("A", "Accelerometer:" + Arrays.toString(accelerometerValues));
+
     }
 
 
