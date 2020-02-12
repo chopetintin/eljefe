@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     private Uri fileUri;
     public static final int MEDIA_TYPE_IMAGE = 1;
-    private String currentPhotoPath;
+    //private String currentPhotoPath;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -114,42 +115,43 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void takePhoto() {
 
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        fileUri = getOutputMediaFileUri();
+        fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
         startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
     }
+    private Uri getOutputMediaFileUri (int type){
+        return Uri.fromFile(getOutputMediaFile(type));
+    }
 
-    //
-    private Uri getOutputMediaFileUri() {
-        if (getOutputMediaFile() != null) {
-            return Uri.fromFile(getOutputMediaFile());
+    @SuppressLint("SimpleDateFormat")
+    private File getOutputMediaFile(int type) {
+        final File mediaStorageDir;
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_PICTURES), "EMFdetectingApp");
+        } else {
+            mediaStorageDir = new File("/storage/sdcard0/EMFdetectingApp");
+        }
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
+                Log.d("EMFdetectingApp", "failed to create directory");
+                return null;
+            }
+        }
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        File mediaFile = null;
+        if (type == MEDIA_TYPE_IMAGE) {
+            mediaFile = new File(mediaStorageDir.getPath() + File.separator + "IMG_" + timeStamp + tv +".jpg");
+
         } else {
             return null;
         }
+        return mediaFile;
     }
-
-    private File getOutputMediaFile() {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + tv + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        try {
-            File image = File.createTempFile(
-                    imageFileName,
-                    ".jpg",
-                    storageDir
-            );
-            currentPhotoPath = image.getAbsolutePath();
-            return image;
-        } catch (IOException e) {
-            return null;
-        }
-    }
-
     public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult ( int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
@@ -161,6 +163,49 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         }
     }
+
+
+//    private Uri getOutputMediaFileUri() {
+//        if (getOutputMediaFile() != null) {
+//            return Uri.fromFile(getOutputMediaFile());
+//        } else {
+//            return null;
+//        }
+//    }
+//
+//    private File getOutputMediaFile() {
+//        // Create an image file name
+//        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+//        String imageFileName = "JPEG_" + timeStamp + tv + "_";
+//        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+//        try {
+//            File image = File.createTempFile(
+//                    imageFileName,
+//                    ".jpg",
+//                    storageDir
+//            );
+//            currentPhotoPath = image.getAbsolutePath();
+//            return image;
+//        } catch (IOException e) {
+//            return null;
+//        }
+//    }
+//
+//    public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
+//
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
+//            if (resultCode == RESULT_OK) {
+//                Toast.makeText(this, "Image successfully saved", Toast.LENGTH_SHORT).show();
+//            } else if (resultCode == RESULT_CANCELED) {
+//                Toast.makeText(this, "Image capture cancelled", Toast.LENGTH_SHORT).show();
+//            } else {
+//                Toast.makeText(this, "Image capture failed", Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//    }
 
     //
 //
