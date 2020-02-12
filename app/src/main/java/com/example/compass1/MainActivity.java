@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
@@ -20,24 +19,20 @@ import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.compass1.battery.BatteryFragment;
 import com.example.compass1.compass.CompassFragment;
-import com.example.compass1.fitness.FitnessFragment;
-import com.example.compass1.history.HistoryFragment;
+import com.example.compass1.steps.StepCounterFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 
@@ -83,16 +78,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 Fragment fragment;
                 switch (item.getItemId()) {
-                    case R.id.bottom_nav_bar_history_item:
-                        Toast.makeText(MainActivity.this, "History", Toast.LENGTH_SHORT).show();
-                        fragment = new HistoryFragment();
-                        fragmentTransaction.replace(R.id.frame_container, fragment);
-                        fragmentTransaction.addToBackStack(null);
-                        fragmentTransaction.commit();
-                        break;
                     case R.id.bottom_nav_bar_fitness_item:
                         Toast.makeText(MainActivity.this, "Fitness", Toast.LENGTH_SHORT).show();
-                        fragment = new FitnessFragment();
+                        fragment = new StepCounterFragment();
                         fragmentTransaction.replace(R.id.frame_container, fragment);
                         fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();
