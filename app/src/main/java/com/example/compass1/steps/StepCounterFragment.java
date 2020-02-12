@@ -1,6 +1,7 @@
 package com.example.compass1.steps;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -22,11 +23,13 @@ public class StepCounterFragment extends Fragment implements SensorEventListener
 
     private SensorManager mSensorManager;
     private Sensor mstep;
-    float[] stepValues = new float[3];
-    float[] lastValue = new float[3];
+    float subtractedStepValue = 0;
+    float rawStepValue;
+    Float lastStepValue = null;
     TextView step;
     TextView Step;
     Button reset;
+    SharedPreferences pref;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -40,28 +43,29 @@ public class StepCounterFragment extends Fragment implements SensorEventListener
         mstep = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
         step = view.findViewById(R.id.test2);
         Step = view.findViewById(R.id.steptext);
+        pref = getActivity().getPreferences(Context.MODE_PRIVATE);
         reset = view.findViewById(R.id.button);
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lastStepValue = rawStepValue;
+                subtractedStepValue = 0;
+                step.setText(Float.toString(subtractedStepValue));
+            }
+        });
     }
 
 
     @Override
     public void onSensorChanged(final SensorEvent event) {
-
-        final float pasos = event.values[0];
-
         if (event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
-
-            reset.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    lastValue[0] = pasos;
-                    stepValues[0] = event.values[0] - lastValue[0];
-                }
-            });
-            stepValues[0] = event.values[0];
+            if(lastStepValue == null){
+                lastStepValue = event.values[0];
+            }
+            rawStepValue = event.values[0];
+            subtractedStepValue = event.values[0] - lastStepValue;
+            step.setText(Float.toString(subtractedStepValue));
         }
-        step.setText(Float.toString(pasos));
-
     }
 
 
@@ -69,14 +73,14 @@ public class StepCounterFragment extends Fragment implements SensorEventListener
 //
 //            //if I hit the reset button, then
 //            //take the last value registered
-//            lastValue [0] = pasos;
-//            stepValues [0] = event.values[0] - lastValue [0];
+//            lastStepValue [0] = pasos;
+//            subtractedStepValue [0] = event.values[0] - lastStepValue [0];
 //
 //
 //
 //            //otherwise
-//            //stepValues[0] = event.values[0];
-//            stepValues[0] = pasos;
+//            //subtractedStepValue[0] = event.values[0];
+//            subtractedStepValue[0] = pasos;
 //
 //        }
 //

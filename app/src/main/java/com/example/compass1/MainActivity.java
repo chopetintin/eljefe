@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 Fragment fragment;
                 switch (item.getItemId()) {
                     case R.id.bottom_nav_bar_fitness_item:
-                        Toast.makeText(MainActivity.this, "Fitness", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Steps", Toast.LENGTH_SHORT).show();
                         fragment = new StepCounterFragment();
                         fragmentTransaction.replace(R.id.frame_container, fragment);
                         fragmentTransaction.addToBackStack(null);
@@ -128,13 +128,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         final File mediaStorageDir;
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_PICTURES), "EMFdetectingApp");
+                    Environment.DIRECTORY_PICTURES), "AntonioFinalCompassApp");
         } else {
-            mediaStorageDir = new File("/storage/sdcard0/EMFdetectingApp");
+            mediaStorageDir = new File("/storage/sdcard0/AntonioFinalCompassApp");
         }
         if (!mediaStorageDir.exists()) {
             if (!mediaStorageDir.mkdirs()) {
-                Log.d("EMFdetectingApp", "failed to create directory");
+                Log.d("AntonioFinalCompassApp", "failed to create directory");
                 return null;
             }
         }
