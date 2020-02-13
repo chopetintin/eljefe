@@ -73,7 +73,7 @@ public class StepCounterFragment extends Fragment implements SensorEventListener
                 saveStepValue("lastStepValue", lastStepValue);
                 subtractedStepValue = 0;
 
-                //calling the method that saves the whole stepNumberDisplay in SharedPreferences
+                //Register in SharedPreferences the subtracted step value, which is 0
                 saveStepValue("subtractedStepValue", subtractedStepValue);
                 stepNumberDisplay.setText(Float.toString(subtractedStepValue));
             }
@@ -89,7 +89,7 @@ public class StepCounterFragment extends Fragment implements SensorEventListener
         if (event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
 
             //If there is no lastStepValue saved, then the last step value is the actual last
-            //sensor value
+            //sensor value. We save it in shared preferences.
             if (lastStepValue == -1) {
                 lastStepValue = event.values[0];
                 saveStepValue("lastStepValue", lastStepValue);
@@ -128,7 +128,7 @@ public class StepCounterFragment extends Fragment implements SensorEventListener
 
     //Define the method which we will call to save the values in shared preferences
     private void saveStepValue(String key, Float value) {
-        //Adding value into shared preferences, this is the actual steps value and commit it, which is sending it
+        //Adding value into shared preferences, this is the actual steps value and apply
         SharedPreferences.Editor editor = pref.edit();
         editor.putFloat(key, value);
         editor.apply();
