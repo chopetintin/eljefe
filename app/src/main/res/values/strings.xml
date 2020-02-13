@@ -2,5 +2,9 @@
     <string name="app_name">Compass1</string>
 
     <string name="button_send">Take Photo</string>
+    <string name="direction">Direction</string>
+    <string name="this_device_cannot_count_steps">This Device cannot count steps</string>
+    <string name="steps">Steps:</string>
+    <string name="reset_step_counter">Reset Step Counter</string>
 
 </resources>
