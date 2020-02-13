@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -25,37 +24,24 @@ import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.compass1.battery.BatteryFragment;
 import com.example.compass1.compass.CompassFragment;
 import com.example.compass1.steps.StepCounterFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
-    //Animation rotateAnimation;
-    ImageView imageView2;
-    TextView grados;
     String tv;
-    //TextView TV;
     private SensorManager sm;
-    //private float x, y, z;
-    //private double h;
-    // we need two sensors in this application
     private Sensor aSensor;
     private Sensor mSensor;
     float[] accelerometerValues = new float[3];
     float[] magneticFieldValues = new float[3];
-
     private Uri fileUri;
     public static final int MEDIA_TYPE_IMAGE = 1;
-    //private String currentPhotoPath;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -63,10 +49,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         setContentView(R.layout.activity_main);
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
-
-//
-        //TV = (TextView) findViewById(R.id.TV);
-
         initialization();
         calculateOrientation();
 
@@ -110,6 +92,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 
     }
+    private void initialization() {
+        //TODO Auto-generated method stub
+        sm = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        mSensor = sm.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+        aSensor = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
+
+    }
 
 
     public void takePhoto() {
@@ -128,13 +118,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         final File mediaStorageDir;
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_PICTURES), "AntonioFinalCompassApp");
+                    Environment.DIRECTORY_PICTURES), "HikerApp");
         } else {
-            mediaStorageDir = new File("/storage/sdcard0/AntonioFinalCompassApp");
+            mediaStorageDir = new File("/storage/sdcard0/HikerApp");
         }
         if (!mediaStorageDir.exists()) {
             if (!mediaStorageDir.mkdirs()) {
-                Log.d("AntonioFinalCompassApp", "failed to create directory");
+                Log.d("HikerApp", "failed to create directory");
                 return null;
             }
         }
@@ -209,21 +199,21 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     //
 //
-    private void initialization() {
-        //TODO Auto-generated method stub
-        //TextView initialization
-        // imageView2 = (ImageView) findViewById(R.id.imageView2);
-        //tv = (TextView) findViewById(R.id.tvDirection);
-        //grados = (TextView) findViewById(R.id.degreeview);
-        //tv.setText("Direction");
-
-        //sensors called when the activity starts
-        sm = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        mSensor = sm.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-        aSensor = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-
-
-    }
+//    private void initialization() {
+//        //TODO Auto-generated method stub
+//        //TextView initialization
+//        // imageView2 = (ImageView) findViewById(R.id.imageView2);
+//        //tv = (TextView) findViewById(R.id.tvDirection);
+//        //grados = (TextView) findViewById(R.id.degreeview);
+//        //tv.setText("Direction");
+//
+//        //sensors called when the activity starts
+//        sm = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+//        mSensor = sm.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+//        aSensor = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+//
+//
+//    }
 
     private void calculateOrientation() {
         //TODO Auto-generated method stub
