@@ -1,14 +1,11 @@
 package com.example.compass1.compass;
 
 import android.content.Context;
-import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,110 +20,120 @@ import androidx.fragment.app.Fragment;
 
 import com.example.compass1.R;
 
-import java.util.Arrays;
 
+//Extend the Fragment class and implement the SensorEventListener
 public class CompassFragment extends Fragment implements SensorEventListener {
 
-    //Animation rotateAnimation;
-    ImageView imageView2;
-    TextView grados;
-    TextView tv;
-    TextView TV;
+    //Declare variables and primitives to be used in the Fragment
+    ImageView compassImage;
+    TextView directionText;
     private SensorManager sm;
-    //private float x, y, z;
-    //private double h;
-    // we need two sensors in this application
     private Sensor aSensor;
     private Sensor mSensor;
-
     float[] accelerometerValues = new float[3];
     float[] magneticFieldValues = new float[3];
 
+    //call to have the fragment instantiate the user interface view
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_compass_test, container, false);
+        return inflater.inflate(R.layout.fragment_compass, container, false);
 
     }
 
+    //Once the view is created, we can instantiate the parameters of the Fragment
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        //Getting an instance of SensorManager for accessing sensors
         sm = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
+
+        //Determining the default sensor type: magnetometer and accelerometer
         mSensor = sm.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
         aSensor = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        grados = view.findViewById(R.id.degreeview);
-        tv = view.findViewById(R.id.tvDirection);
-        TV = view.findViewById(R.id.TV);
-        imageView2 = view.findViewById(R.id.imageView2);
+
+        //Initialize the text and image displays
+        directionText = view.findViewById(R.id.tvDirection);
+        compassImage = view.findViewById(R.id.imageView2);
+
+        //Call calculate orientation method
         calculateOrientation();
     }
 
+    // Definining the calculateOrientation method.
     private void calculateOrientation() {
-        //TODO Auto-generated method stub
         float[] values = new float[3];
         float[] R = new float[9];
 
+        //Processing the data read from the sensors
         SensorManager.getRotationMatrix(R, null, accelerometerValues, magneticFieldValues);
         SensorManager.getOrientation(R, values);
 
+        //Convert from radians to degrees
         float degree = (float) Math.toDegrees(values[0]);
         values[1] = (float) Math.toDegrees(values[1]);
         values[2] = (float) Math.toDegrees(values[2]);
-        Log.d("CREATIONFragment", "calculateOrientation is being executed");
-        grados.setText(Float.toString(degree));
 
+
+        //Setting the textview "directionText" to the corresponding
+        //angle value.
         if (degree >= -5 && degree < 5) {
-            tv.setText("North");
+            directionText.setText("North");
         } else if (degree >= 5 && degree < 40) {
-            tv.setText("North North East");
+            directionText.setText("North North East");
         } else if (degree >= 40 && degree < 50) {
-            tv.setText("North East");
+            directionText.setText("North East");
         } else if (degree >= 50 && degree < 85) {
-            tv.setText("East North East");
+            directionText.setText("East North East");
         } else if (degree >= 85 && degree < 95) {
-            tv.setText("East");
+            directionText.setText("East");
         } else if (degree >= 95 && degree < 130) {
-            tv.setText("East South East");
+            directionText.setText("East South East");
         } else if (degree >= 130 && degree < 140) {
-            tv.setText("South East");
+            directionText.setText("South East");
         } else if (degree >= 140 && degree < 175) {
-            tv.setText("South South East");
+            directionText.setText("South South East");
         } else if ((degree >= 175 && degree <= 180) || (degree >= -180 && degree < -175)) {
-            tv.setText("South");
+            directionText.setText("South");
         } else if (degree >= -175 && degree < -140) {
-            tv.setText("South South West");
+            directionText.setText("South South West");
         } else if (degree >= -140 && degree < -130) {
-            tv.setText("South West");
+            directionText.setText("South West");
         } else if (degree >= -130 && degree < -95) {
-            tv.setText("West South West");
+            directionText.setText("West South West");
         } else if (degree >= -95 && degree < -85) {
-            tv.setText("West");
+            directionText.setText("West");
         } else if (degree >= -85 && degree < -50) {
-            tv.setText("West North West");
+            directionText.setText("West North West");
         } else if (degree >= -50 && degree < -40) {
-            tv.setText("North West");
+            directionText.setText("North West");
         } else if (degree >= -40 && degree < -50) {
-            tv.setText("North North West");
+            directionText.setText("North North West");
         }
 
-        RotateAnimation ra = new RotateAnimation(
+        //RotateAnimation function applied to the compass image.
+        //Degree offset is -degree and we're moving towards -degree,
+        //since we want a rotation opposite to that of the angle. e.g.: If the user
+        //rotates 3 degrees to the right, the image has to rotate 3 degrees to the left
+        //to remain accurate. Rotation is done relative to itself.
+        RotateAnimation rotateCompass = new RotateAnimation(
                 -degree,
                 -degree,
                 Animation.RELATIVE_TO_SELF, 0.5f,
                 Animation.RELATIVE_TO_SELF,
                 0.5f);
-        ra.setDuration(500);
-        ra.setFillAfter(true);
-        imageView2.startAnimation(ra);
+        rotateCompass.setDuration(500);
+        rotateCompass.setFillAfter(true);
+        compassImage.startAnimation(rotateCompass);
     }
 
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        //read sensor value from SensorEvent
-        Log.d("V", "ValuesPre" + Arrays.toString(event.values));
 
-        //calculate the total magnetic field
+
+        //Register the content from the sensors and apply a low pass filter to smooth the signals
+        //and filter out unwanted noise.
         final float alpha = 0.97f;
         if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
             //low pass filter
@@ -146,34 +153,30 @@ public class CompassFragment extends Fragment implements SensorEventListener {
 
         calculateOrientation();
 
-        Log.d("FragmentValues", "Values" + Arrays.toString(event.values));
-        Log.d("FragmentValues2", "Magnetic:" + Arrays.toString(magneticFieldValues));
-        Log.d("FragmentValues3", "Accelerometer:" + Arrays.toString(accelerometerValues));
     }
 
-
+    //No sensor accuracy changed, method can be left blank.
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
     }
 
+    //Enable sensors when we return to the Fragment.
     @Override
     public void onResume() {
         super.onResume();
         //enable sensor manager when activity returns
         sm.registerListener(this, mSensor, sm.SENSOR_DELAY_GAME);
         sm.registerListener(this, aSensor, sm.SENSOR_DELAY_GAME);
-        Log.d("RESUME", "onResume is being executed");
 
 
     }
 
+    //Disable sensors when we leave fragment, in order to not drain battery.
     @Override
     public void onPause() {
         super.onPause();
-        //Unregister sensor manager when activity is not visible
         sm.unregisterListener(this);
-        Log.d("PAUSE", "onPause is being executed");
 
     }
 }
